@@ -1,0 +1,16 @@
+<odoo>
+    <record id="course_python" model="school.course">
+        <field name="name">Python Programming</field>
+        <field name="description">Description for the Python programming</field>
+    </record>
+
+    <record id="course_java" model="school.course">
+        <field name="name">Java Programming</field>
+        <field name="description">Description for the Java programming</field>
+    </record>
+
+    <record id="course_react" model="school.course">
+        <field name="name">React Programming</field>
+        <field name="description">Description for the React programming</field>
+    </record>
+</odoo>

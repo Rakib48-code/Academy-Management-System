@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="session_menu_calender" model="ir.ui.view">
+        <field name="name">session_menu_calender</field>
+        <field name="model">school.session</field>
+        <field name="arch" type="xml">
+            <calendar string="Session Calender" date_start="start_date" date_stop="end_date" color="instructor_id">
+                <field name="name"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="session_menu_tree" model="ir.ui.view">
+        <field name="name">session_menu_tree</field>
+        <field name="model">school.session</field>
+        <field name="arch" type="xml">
+            <tree string="Session Tree" decoration-info="duration&lt;5" decoration-it="duration==10"
+                  decoration-bf="duration==15" decoration-danger="duration==20" decoration-warning="duration==25">
+                <field name="name"/>
+                <field name="start_date"/>
+                <field name="duration"/>
+                <field name="seats"/>
+                <field name="taken_seats" widget="progressbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="session_menu_form" model="ir.ui.view">
+        <field name="name">session_menu_form</field>
+        <field name="model">school.session</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Session Name"/>
+                        </h1>
+                    </div>
+                    <group string="General">
+                        <field name="course_id"/>
+                        <field name="instructor_id"/>
+                        <field name="taken_seats" widget="progressbar"/>
+                    </group>
+                    <group string="Schedule">
+                        <field name="start_date"/>
+                        <field name="duration"/>
+                        <field name="seats"/>
+                    </group>
+                    <label for="attendance_id"/>
+                    <field name="attendance_id"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="session_menu_pivot" model="ir.ui.view">
+        <field name="name">session_menu_pivot</field>
+        <field name="model">school.session</field>
+        <field name="arch" type="xml">
+            <pivot string="Participations by course">
+                <field name="attendace_count" type="col"/>
+                <field name="course_id" type="row"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="session_menu_graph" model="ir.ui.view">
+        <field name="name">session_menu_graph</field>
+        <field name="model">school.session</field>
+        <field name="arch" type="xml">
+            <graph string="Participations by course">
+                <field name="course_id"/>
+                <field name="attendace_count" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- kanban view -->
+    <record id="view_session_kanban" model="ir.ui.view">
+        <field name="name">view_session_kanban</field>
+        <field name="model">school.session</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="course_id">
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_dropdown_kanban">
+                                <div class="oe_dropdown_toggle">
+                                    <i class="fa fa-bars fa-lg" title="Manage" arial-label="Manage"/>
+                                    <ul class="oe_dropdown_kanban">
+                                        <li>
+                                            <a type="delete">Delete</a>
+                                        </li>
+                                        <li>
+                                            <ul class="oe_kanban_colorpicker"
+                                                data-field="color"/>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div t-attf-class="oe_kanban_content">
+                                <!-- title -->
+                                Session Name:
+                                <field name="name"/>
+                                <br/>
+                                Start Date:
+                                <field name="start_date"/>
+                                <br/>
+                                Duration:
+                                <field name="duration"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="session_menu_action" model="ir.actions.act_window">
+        <field name="name">Sessions</field>
+        <field name="res_model">school.session</field>
+        <field name="view_mode">tree,form,calendar,pivot,graph,kanban</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new session here
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="session_menu"
+              name="Sessions"
+              parent="academy_root_menu"
+              action="session_menu_action"
+              sequence="2"/>
+
+</odoo>
